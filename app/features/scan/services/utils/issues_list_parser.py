@@ -32,28 +32,31 @@ def parse_detailed_audit_report(data: Dict[str, Any]) -> Dict[str, Any]:
         impacts = []
         recommendations = []
 
-        seen_titles = set()
+        seen_problems = {}
         seen_impact = set()
         seen_recommendations = set()
 
         for issue in category_issues:
-            if issue["title"] not in seen_titles:
+            normalized_title = issue["title"].lower().strip()[:50]
+
+            if normalized_title not in seen_problems:
                 problems.append({
                     "title": issue["title"],
                     "description": issue["description"]
                 })
+                seen_problems[normalized_title] = True
 
-                seen_titles.add(issue["title"])
+            if issue['business_impact'] and issue['business_impact'].strip():
+                normalized_impact = issue['business_impact'].strip()
+                if normalized_impact not in seen_impact:
+                    impacts.append(normalized_impact)
+                    seen_impact.add(normalized_impact)
 
-            if issue['business_impact'] not in seen_impact:
-                impacts.append(issue['business_impact'])
-
-                seen_impact.add(issue['business_impact'])
-
-            if issue['recommendation'] not in seen_recommendations:
-                recommendations.append(issue['recommendation'])
-
-                seen_recommendations.add(issue['recommendation'])
+            if issue['recommendation'] and issue['recommendation'].strip():
+                normalized_rec = issue['recommendation'].strip()
+                if normalized_rec not in seen_recommendations:
+                    recommendations.append(normalized_rec)
+                    seen_recommendations.add(normalized_rec)
 
         category_score = data[f'score_{category_key}']
 
