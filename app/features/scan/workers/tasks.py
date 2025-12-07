@@ -245,12 +245,12 @@ def run_single_page_scan_sse(self, job_id: str, url: str):
         start_time = time.time()
         
         try:
-            driver = ScrapingService.load_page(url, timeout=15)
+            driver = ScrapingService.load_page(url, timeout=45)
             load_time_ms = int((time.time() - start_time) * 1000)
             logger.info(f"[{job_id}] Page loaded in {load_time_ms}ms")
             
         except TimeoutException:
-            load_time_ms = 15000
+            load_time_ms = 45000
             error_msg = f"Page load timeout after {load_time_ms}ms"
             logger.error(f"[{job_id}] {error_msg}")
             update_job_status(job_id, ScanJobStatus.failed, error_message=error_msg)
