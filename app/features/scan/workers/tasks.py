@@ -251,7 +251,15 @@ def run_single_page_scan_sse(self, job_id: str, url: str):
             
         except TimeoutException:
             load_time_ms = 15000
-            logger.warning(f"[{job_id}] Page load timeout after {load_time_ms}ms")
+            error_msg = f"Page load timeout after {load_time_ms}ms"
+            logger.error(f"[{job_id}] {error_msg}")
+            update_job_status(job_id, ScanJobStatus.failed, error_message=error_msg)
+            publish_sse_event(job_id, "scan_error", {
+                "progress": 0,
+                "message": "Page took too long to load. Please try again or check the URL.",
+                "error": error_msg
+            })
+            return
             
         except WebDriverException as e:
             error_msg = f"Selenium error: {str(e)}"
