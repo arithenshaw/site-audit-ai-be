@@ -1,7 +1,7 @@
 from fastapi import APIRouter, status, Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.ext.asyncio import AsyncSession
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel
 from typing import List, Optional
 
 from app.features.scan.schemas.scan import DiscoveryRequest, DiscoveryResponse
@@ -21,12 +21,12 @@ router = APIRouter(prefix="/scan/discovery", tags=["scan-discovery"])
 
 class DiscoverUrlsRequest(BaseModel):
     """Request schema for URL discovery"""
-    url: HttpUrl
+    url: str
     
     class Config:
         json_schema_extra = {
             "example": {
-                "url": "https://example.com"
+                "url": "https://example.com or http://example.com or example.com"
             }
         }
 
