@@ -243,7 +243,7 @@ async def forgot_password(
         verification_otp = generate_otp()
 
         user.verification_otp=verification_otp
-        user.otp_expires_at=datetime.utcnow() + timedelta(minutes=2)
+        user.otp_expires_at=datetime.utcnow() + timedelta(minutes=10)
         await db.commit()
         logger.info(f"Password reset requested for: {user.email}")
 
@@ -284,7 +284,7 @@ async def resend_reset_token(
 
         # Store the token in the database
         user.verification_otp = verification_otp
-        user.otp_expires_at = datetime.utcnow() + timedelta(minutes=2)
+        user.otp_expires_at = datetime.utcnow() + timedelta(minutes=10)
         await db.commit()
 
         # Send new reset email
@@ -296,7 +296,7 @@ async def resend_reset_token(
         )
 
         return api_response(
-            message="New password reset email sent. Link expires in 2 minutes.",
+            message="New password reset email sent. Link expires in 10 minutes.",
             status_code=200,
         )
     except HTTPException:
