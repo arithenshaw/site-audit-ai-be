@@ -6,6 +6,8 @@ import enum
 
 from pydantic import BaseModel, EmailStr, Field, field_serializer, field_validator
 
+from app.features.auth.models.user_settings import EmailReportPreference
+
 
 class SignupRequest(BaseModel):
     email: EmailStr
@@ -166,11 +168,6 @@ class ResendVerificationRequest(BaseModel):
 
 
 
-class EmailReportPreference(str, enum.Enum):
-    none = "none"
-    weekly = "weekly"
-    monthly = "monthly"
-    quarterly = "quarterly"
 
 class UpdateEmailReportPreferenceRequest(BaseModel):
     preference: EmailReportPreference

@@ -4,13 +4,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.features.auth.models.user import User
 from app.features.auth.routes.auth import get_current_user
-from app.features.auth.models.user_settings import UserSettings
+from app.features.auth.models.user_settings import UserSettings, EmailReportPreference
 from app.features.auth.schemas.auth import (
     UpdateProfileRequest, 
     UserResponse, 
     UpdateEmailReportPreferenceRequest,
-    EmailReportPreferenceResponse,
-    EmailReportPreference
+    EmailReportPreferenceResponse
 )
 from app.platform.db.session import get_db
 from app.platform.response import api_response
