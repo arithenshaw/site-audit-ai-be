@@ -296,7 +296,7 @@ async def resend_reset_token(
         )
 
         return api_response(
-            message="New password reset email sent. Link expires in 2 minutes.",
+            message="New password reset email sent. Link expires in 10 minutes.",
             status_code=200,
         )
     except HTTPException:
