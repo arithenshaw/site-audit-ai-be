@@ -168,9 +168,9 @@ class ResendVerificationRequest(BaseModel):
 
 class EmailReportPreference(str, enum.Enum):
     none = "none"
-    daily = "daily"
     weekly = "weekly"
     monthly = "monthly"
+    quarterly = "quarterly"
 
 class UpdateEmailReportPreferenceRequest(BaseModel):
     preference: EmailReportPreference

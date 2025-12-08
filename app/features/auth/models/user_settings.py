@@ -4,9 +4,9 @@ from app.platform.db.base import BaseModel
 
 class EmailReportPreference(str, enum.Enum):
     none = "none"
-    daily = "daily"
     weekly = "weekly"
     monthly = "monthly"
+    quarterly = "quarterly"
 
 class UserSettings(BaseModel):
     __tablename__ = "user_settings"

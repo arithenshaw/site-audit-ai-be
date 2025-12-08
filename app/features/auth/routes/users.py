@@ -147,7 +147,7 @@ async def delete_my_profile_picture(
     "/me/email-report-preference",
     response_model=dict,
     summary="Update email report preference",
-    description="Update the email report cadence (none/daily/weekly/monthly) for the authenticated user.",
+    description="Update the email report cadence (none/weekly/monthly/quarterly) for the authenticated user.",
 )
 async def update_email_report_preference(
     payload: UpdateEmailReportPreferenceRequest,
@@ -181,7 +181,7 @@ async def update_email_report_preference(
     "/me/email-report-preference",
     response_model=dict,
     summary="Get email report preference",
-    description="Fetch the authenticated user's email report cadence (none/daily/weekly/monthly).",
+    description="Fetch the authenticated user's email report cadence (none/weekly/monthly/quarterly).",
 )
 async def get_email_report_preference(
     current_user: User = Depends(get_current_user),
