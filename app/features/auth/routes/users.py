@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.features.auth.models.user import User
 from app.features.auth.routes.auth import get_current_user
-from app.features.auth.models.user_settings import UserSettings
+from app.features.auth.models.user_settings import UserSettings, EmailReportPreference
 from app.features.auth.schemas.auth import (
     UpdateProfileRequest, 
     UserResponse, 
@@ -16,6 +16,9 @@ from app.platform.response import api_response
 from app.platform.utils.file_upload import delete_profile_picture, save_profile_picture
 
 router = APIRouter(prefix="/users", tags=["User Management"])
+
+# Generate email report options dynamically from enum
+email_report_options = "/".join([e.value for e in EmailReportPreference])
 
 
 @router.get(
@@ -147,7 +150,7 @@ async def delete_my_profile_picture(
     "/me/email-report-preference",
     response_model=dict,
     summary="Update email report preference",
-    description="Update the email report cadence (none/daily/weekly/monthly) for the authenticated user.",
+    description=f"Update the email report cadence ({email_report_options}) for the authenticated user.",
 )
 async def update_email_report_preference(
     payload: UpdateEmailReportPreferenceRequest,
@@ -181,7 +184,7 @@ async def update_email_report_preference(
     "/me/email-report-preference",
     response_model=dict,
     summary="Get email report preference",
-    description="Fetch the authenticated user's email report cadence (none/daily/weekly/monthly).",
+    description=f"Fetch the authenticated user's email report cadence ({email_report_options}).",
 )
 async def get_email_report_preference(
     current_user: User = Depends(get_current_user),
